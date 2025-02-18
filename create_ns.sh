@@ -1,15 +1,9 @@
 #!/bin/bash
 # Script: create_dns_zone.sh
-# Purpose: Create a DNS Zone for a specified domain with two NS records on an Ubuntu server using BIND9.
+# Purpose: Remove any existing BIND9 installation, reinstall it, and then create a DNS Zone for a specified domain with two NS records on an Ubuntu server.
 #
 # Make sure you have sudo privileges before running this script.
 # Adjust the settings (DOMAIN, NS1, NS2, and IP addresses) as needed.
-
-colored_text(){
-  local color=$1
-  local text=$2
-  echo -e "\e[${color}m$text\e[0m"
-}
 
 # Variables
 DOMAIN="example.com"
@@ -21,12 +15,15 @@ NS1_IP="130.185.75.195"
 NS2_IP="130.185.75.195"
 ADMIN_EMAIL="admin.${DOMAIN}."
 
-# Install BIND9 if it is not installed
-if ! dpkg -l | grep -q bind9; then
-    echo "BIND9 not found, installing..."
-    sudo apt-get update
-    sudo apt-get install -y bind9 bind9utils bind9-doc
-fi
+# Completely remove any existing BIND9 installation
+echo "Purging any existing BIND9 installation..."
+sudo apt-get purge -y bind9 bind9utils bind9-doc
+sudo apt-get autoremove -y
+
+# Update package lists and reinstall BIND9
+echo "Installing BIND9..."
+sudo apt-get update
+sudo apt-get install -y bind9 bind9utils bind9-doc
 
 # Create the zone directory if it doesn't exist
 if [ ! -d "${ZONE_DIR}" ]; then
@@ -34,28 +31,29 @@ if [ ! -d "${ZONE_DIR}" ]; then
     sudo mkdir -p "${ZONE_DIR}"
 fi
 
-# Backup the existing named.conf.local file
-echo "Backing up /etc/bind/named.conf.local"
-sudo cp /etc/bind/named.conf.local /etc/bind/named.conf.local.bak
+# Backup the existing named.conf.local file if it exists
+if [ -f /etc/bind/named.conf.local ]; then
+    echo "Backing up /etc/bind/named.conf.local"
+    sudo cp /etc/bind/named.conf.local /etc/bind/named.conf.local.bak
+fi
 
-# Add zone configuration to named.conf.local if not already present
-if ! grep -q "zone \"${DOMAIN}\"" /etc/bind/named.conf.local; then
-    echo "Adding zone configuration for ${DOMAIN} to /etc/bind/named.conf.local"
-    sudo bash -c "cat >> /etc/bind/named.conf.local <<EOF
+# Remove any previous zone configuration for the domain from named.conf.local to avoid duplicates
+sudo sed -i "/zone \"${DOMAIN}\" {/,/};/d" /etc/bind/named.conf.local
+
+# Add zone configuration to named.conf.local
+echo "Adding zone configuration for ${DOMAIN} to /etc/bind/named.conf.local"
+sudo bash -c "cat >> /etc/bind/named.conf.local <<EOF
 
 zone \"${DOMAIN}\" {
     type master;
     file \"${ZONE_FILE}\";
 };
 EOF"
-else
-    echo "Zone configuration for ${DOMAIN} already exists."
-fi
 
-# Determine the new serial number by reading the old serial from the zone file if it exists
+# Determine the new serial number by timestamp
 NEW_SERIAL=$(date +%s)
 
-# Create the zone file with SOA and NS records without comments
+# Create the zone file with SOA and NS records (without inline comments)
 echo "Creating zone file at ${ZONE_FILE}"
 sudo bash -c "cat > ${ZONE_FILE}" <<EOF
 \$TTL    604800
