@@ -89,11 +89,8 @@ sudo named-checkzone ${DOMAIN} ${ZONE_FILE}
 colored_text "32" "Restarting BIND9 service"
 sudo systemctl restart bind9
 
-colored_text "32" "Enable BIND9 service"
-sudo systemctl enable bind9
-
 colored_text "32" "DNS Zone for ${DOMAIN} with NS records ${NS1} and ${NS2} has been created successfully."
 
-colored_text "34" "Use following commands  to make sure it is set"
-colored_text "34" "host -t NS $DOMAIN"
-colored_text "34" "dig NS $DOMAIN"
+colored_text "36" "Use following commands  to make sure it is set"
+colored_text "36" "host -t NS $DOMAIN"
+colored_text "36" "dig NS $DOMAIN"
