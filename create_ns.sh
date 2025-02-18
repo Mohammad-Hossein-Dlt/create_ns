@@ -25,11 +25,11 @@ BIND_LOCAL_CONF="/etc/bind/named.conf.local"
 # تنظیم نام و آدرس IP برای دو nameserver
 NS_HOST1="ns1.${DOMAIN}"
 NS_HOST2="ns2.${DOMAIN}"
-NS_IP1="192.168.1.10"  # آدرس IP سرور اول (NS1)
-NS_IP2="192.168.1.11"  # آدرس IP سرور دوم (NS2)
+NS_IP1="130.185.75.195"  # آدرس IP سرور اول (NS1)
+NS_IP2="130.185.75.195"  # آدرس IP سرور دوم (NS2)
 
 # آدرس IP اصلی دامنه (برای رکورد A دامنه و www)
-DOMAIN_IP="192.168.1.20"
+DOMAIN_IP="130.185.75.195"
 
 # ایمیل مدیر دامنه (در فایل SOA به صورت admin.example.com. نوشته می‌شود)
 ADMIN_EMAIL="admin.${DOMAIN}"
