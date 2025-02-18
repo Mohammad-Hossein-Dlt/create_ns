@@ -54,7 +54,7 @@ fi
 
 # Determine the new serial number by reading the old serial from the zone file if it exists
 
-NEW_SERIAL=$(date +%Y%m%d01)
+NEW_SERIAL=$(date +%s)
 
 colored_text "32" "$NEW_SERIAL"
 
