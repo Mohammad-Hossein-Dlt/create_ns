@@ -8,10 +8,6 @@
 colored_text(){
   local color=$1
   local text=$2
-
-  if [[ -z "$color" ]]; then
-    color="32"
-  fi
   echo -e "\e[${color}m$text\e[0m"
 }
 
@@ -60,7 +56,7 @@ fi
 
 NEW_SERIAL=$(date +%Y%m%d01)
 
-colored_text "$NEW_SERIAL"
+colored_text "32" "$NEW_SERIAL"
 
 # Create the zone file with SOA and NS records without comments
 echo "Creating zone file at ${ZONE_FILE}"
