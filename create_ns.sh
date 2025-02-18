@@ -60,7 +60,7 @@ fi
 
 NEW_SERIAL=$(date +%Y%m%d01)
 
-colored_text NEW_SERIAL
+colored_text "$NEW_SERIAL"
 
 # Create the zone file with SOA and NS records without comments
 echo "Creating zone file at ${ZONE_FILE}"
