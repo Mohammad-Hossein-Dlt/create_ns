@@ -67,7 +67,7 @@ echo "Creating zone file at ${ZONE_FILE}"
 sudo bash -c "cat > ${ZONE_FILE}" <<EOF
 \$TTL    604800
 @       IN      SOA     ${NS1} ${ADMIN_EMAIL} (
-                             ${NEW_SERIAL}
+                             $NEW_SERIAL
                              604800
                              86400
                              2419200
