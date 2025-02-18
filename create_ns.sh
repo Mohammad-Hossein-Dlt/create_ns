@@ -24,7 +24,7 @@ NS2_IP="130.185.75.195"
 ADMIN_EMAIL="admin.${DOMAIN}."
 
 # Completely remove any existing BIND9 installation
-colored_text "32" "Purging any existing BIND9 installation..."
+colored_text "32" "Clean up any existing BIND9 installation..."
 sudo apt-get purge -y bind9 bind9utils bind9-doc
 sudo apt-get autoremove -y
 
