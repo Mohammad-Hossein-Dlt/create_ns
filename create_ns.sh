@@ -67,10 +67,11 @@ sudo bash -c "cat > ${ZONE_FILE}" <<EOF
 \$TTL    604800
 @       IN      SOA     ${NS1} ${ADMIN_EMAIL} (
                              $NEW_SERIAL
-                             604800
-                             86400
-                             2419200
-                             604800 )
+                             604800 ; Refresh
+                             86400 ; Retry
+                             2419200 ; Expire
+                             604800 ; Negative Cache TTL
+                             )
 @       IN      NS      ${NS1}
 @       IN      NS      ${NS2}
 ns1     IN      A       ${NS1_IP}
