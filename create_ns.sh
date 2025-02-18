@@ -14,7 +14,7 @@ colored_text(){
 }
 
 # Variables
-DOMAIN="deadlyhelios.site/"
+DOMAIN="deadlyhelios.site"
 ZONE_DIR="/etc/bind/zones"
 ZONE_FILE="${ZONE_DIR}/${DOMAIN}.db"
 NS1="ns1.${DOMAIN}."
