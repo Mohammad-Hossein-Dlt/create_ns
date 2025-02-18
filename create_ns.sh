@@ -92,5 +92,5 @@ sudo systemctl restart bind9
 colored_text "32" "DNS Zone for ${DOMAIN} with NS records ${NS1} and ${NS2} has been created successfully."
 
 colored_text "36" "Use following commands  to make sure it is set"
-colored_text "36" "host -t NS $DOMAIN"
-colored_text "36" "dig NS $DOMAIN"
+colored_text "36" "   host -t NS $DOMAIN"
+colored_text "36" "   dig NS $DOMAIN"
