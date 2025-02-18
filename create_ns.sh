@@ -53,10 +53,7 @@ else
 fi
 
 # Determine the new serial number by reading the old serial from the zone file if it exists
-
 NEW_SERIAL=$(date +%s)
-
-colored_text "32" "$NEW_SERIAL"
 
 # Create the zone file with SOA and NS records without comments
 echo "Creating zone file at ${ZONE_FILE}"
