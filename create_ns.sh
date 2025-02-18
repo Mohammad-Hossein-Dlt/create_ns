@@ -35,7 +35,7 @@ ZONE_CONFIG="zone \"${DOMAIN}\" {
 
 # Check if the zone is already configured; if not, add it.
 if ! grep -q "zone \"${DOMAIN}\"" ${BIND_LOCAL_CONF}; then
-    echo "${ZONE_CONFIG}" >> ${BIND_LOCAL_CONF}
+    echo -e "\n${ZONE_CONFIG}" >> ${BIND_LOCAL_CONF}
     echo "Zone ${DOMAIN} added to ${BIND_LOCAL_CONF}."
 else
     echo "Zone ${DOMAIN} is already configured in ${BIND_LOCAL_CONF}."
@@ -60,7 +60,7 @@ cat > ${ZONE_FILE} <<EOF
                                   2419200 ; Expire
                                    604800 ; Negative Cache TTL
 )
-
+;
 @       IN      NS      ${NS_HOST1}.
 @       IN      NS      ${NS_HOST2}.
 
