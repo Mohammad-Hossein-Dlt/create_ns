@@ -24,9 +24,13 @@ NS2_IP="130.185.75.195"
 ADMIN_EMAIL="admin.${DOMAIN}."
 
 # Completely remove any existing BIND9 installation
-colored_text "32" "Clean up any existing BIND9 installation..."
-sudo apt-get purge -y bind9 bind9utils bind9-doc
-sudo apt-get autoremove -y
+if dpkg -l | grep -qw bind9; then
+    colored_text "32" "BIND9 is installed. Purging existing installation and configuration files..."
+    sudo systemctl stop bind9 2>/dev/null
+    sudo apt-get purge -y bind9 bind9utils bind9-doc
+    sudo apt-get autoremove -y
+    sudo rm -rf /etc/bind
+fi
 
 # Update package lists and reinstall BIND9
 colored_text "32" "Installing BIND9..."
